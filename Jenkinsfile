@@ -1,6 +1,6 @@
 pipeline {
      agent {
-        docker { image 'node:14-alpine' }
+        docker { image 'ubuntu:latest' }
     }
     stages {
        stage('Checkout to the testing Repo') {
@@ -10,10 +10,8 @@ pipeline {
         }
         stage('Run qualii script') {
             steps { 
-                sh "pwd"
-                sh "ls"
                 sh "chmod +x ./qualiti-script.sh"
-                sh "./qualiti-script.sh"   
+                bash "./qualiti-script.sh"   
             }
         }
     }
