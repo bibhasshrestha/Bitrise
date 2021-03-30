@@ -1,7 +1,5 @@
 pipeline {
-     agent {
-        docker { image 'ubuntu:latest' }
-    }
+     agent any
     stages {
        stage('Checkout to the testing Repo') {
             steps {
