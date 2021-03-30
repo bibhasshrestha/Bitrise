@@ -9,7 +9,7 @@ pipeline {
         stage('Run qualii script') {
             steps { 
                 sh "chmod +x ./qualiti-script.sh"
-                bash "./qualiti-script.sh"   
+                sh "./qualiti-script.sh"   
             }
         }
     }
