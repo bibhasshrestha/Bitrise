@@ -8,8 +8,8 @@ pipeline {
         }
         stage('Run qualii script') {
             steps { 
-                sh "sudo chmod +x ./qualiti-script.sh"
-                sh "sudo ./qualiti-script.sh"   
+                sh "chmod +x ./qualiti-script.sh"
+                sh "./qualiti-script.sh"   
             }
         }
     }
