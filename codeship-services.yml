@@ -1,8 +1,0 @@
-app:
-  build: .
-  environment:
-    ENV: my-var
-data:
-  image: ubuntu
-  volumes:
-    - ./tmp/data:/data
