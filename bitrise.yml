@@ -5,4 +5,4 @@ workflows:
   test:
     steps:
       inputs:
-      - content: "echo 'Hello World!'"
+      - content: "echo 'Hello Qualiti!'"
