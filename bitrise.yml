@@ -1,8 +1,34 @@
-format_version: 1.3.1
+---
+format_version: '8'
 default_step_lib_source: https://github.com/bitrise-io/bitrise-steplib.git
-    
+project_type: other
+trigger_map:
+- push_branch: "*"
+  workflow: primary
+- pull_request_source_branch: "*"
+  workflow: primary
 workflows:
-  test:
+  primary:
     steps:
-      inputs:
-      - content: "echo 'Hello Qualiti!'"
+    - script@1:
+        inputs:
+        - content: "#!/usr/bin/env bash\n# fail if any commands fails\nset -e\n# debug
+            log\nset -x\n\n# write your script here\necho \"Hello World!\"\n#!/bin/bash\n
+            \n#!/bin/bash\n \nset -ex\n \nPROJECT_ID='333'\nAPI_KEY='d3TzEYq0j17cAyDDCTTvE1Pbh9whrcQ77kvdwcB6'\nCLIENT_ID='db6ad047665572b188919f065e8115b9'\nSCOPES=['\"ViewTestResults\"','\"ViewAutomationHistory\"']\nAPI_URL='https://7iggpnqgq9.execute-api.us-east-2.amazonaws.com/udbodh/api'\nINTEGRATION_JWT_TOKEN='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJwcm9qZWN0X2lkIjozMzMsImFwaV9rZXlfaWQiOjQ4MjIsIm5hbWUiOiIiLCJkZXNjcmlwdGlvbiI6IiIsImljb24iOiIiLCJpbnRlZ3JhdGlvbl9uYW1lIjoiZ2l0bGFiIiwib3B0aW9ucyI6e30sImlhdCI6MTYyMTI0Mjg5Mn0.ZE9D7MxlCQV0LwpbJldKu7ZX_A7YFZzbdXQgD6v2e9A'\nINTEGRATIONS_API_URL='http://6a643aa025c5.ngrok.io'\n
+            \nsudo apt-get update -y\nsudo apt-get install -y jq\n \n#Trigger test
+            run\nTEST_RUN_ID=\"$( \\\n  curl -X POST -G ${INTEGRATIONS_API_URL}/integrations/bitrise/${PROJECT_ID}/events
+            \\\n    -d 'token='$INTEGRATION_JWT_TOKEN''\\\n    -d 'triggerType=Deploy'\\\n
+            \   -d 'projectId='$PROJECT_ID''\\\n  | jq -r '.test_run_id')\"\n \nAUTHORIZATION_TOKEN=\"$(
+            \\\n  curl -X POST -G ${API_URL}/auth/token \\\n  -H 'x-api-key: '${API_KEY}''
+            \\\n  -H 'client_id: '${CLIENT_ID}'' \\\n  -H 'scopes: '\"${SCOPES}\"''
+            \\\n  | jq -r '.token')\"\n \n# Wait until the test run has finished\nwhile
+            : ; do\n   RESULT=\"$( \\\n   curl -X GET ${API_URL}/automation-history?project_id=${PROJECT_ID}\\&test_run_id=\"${TEST_RUN_ID}\"
+            \\\n   -H 'token: Bearer '\"$AUTHORIZATION_TOKEN\"'' \\\n   -H 'x-api-key:
+            '${API_KEY}'' \\\n  | jq -r '.[0].finished')\"\n  if [ \"$RESULT\" !=
+            null ]; then\n    break;\n  fi\n    sleep 15;\ndone\n \n# # Once finished,
+            verify the test result is created and that its passed\nTEST_RUN_RESULT=\"$(
+            \\\n  curl -X GET ${API_URL}/test-results?test_run_id=\"${TEST_RUN_ID}\"\\&project_id=${PROJECT_ID}
+            \\\n    -H 'token: Bearer '\"$AUTHORIZATION_TOKEN\"'' \\\n    -H 'x-api-key:
+            '${API_KEY}'' \\\n  | jq -r '.[0].status' \\\n)\"\necho \"Qualiti E2E
+            Tests ${TEST_RUN_RESULT}\"\n\n# or run a script from your repository,
+            like:\n# bash ./path/to/script.sh\n# not just bash, e.g.:\n# ruby ./path/to/script.rb"
