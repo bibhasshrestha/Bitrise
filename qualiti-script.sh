@@ -2,20 +2,20 @@
  
 set -ex
  
-PROJECT_ID='332'
+PROJECT_ID='333'
 API_KEY='d3TzEYq0j17cAyDDCTTvE1Pbh9whrcQ77kvdwcB6'
 CLIENT_ID='db6ad047665572b188919f065e8115b9'
 SCOPES=['"ViewTestResults"','"ViewAutomationHistory"']
 API_URL='https://7iggpnqgq9.execute-api.us-east-2.amazonaws.com/udbodh/api'
-INTEGRATION_JWT_TOKEN='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJwcm9qZWN0X2lkIjozMzIsImFwaV9rZXlfaWQiOjI2MDgsIm5hbWUiOiIiLCJkZXNjcmlwdGlvbiI6IiIsImljb24iOiIiLCJpbnRlZ3JhdGlvbl9uYW1lIjoiVGVhbWNpdHkiLCJvcHRpb25zIjp7fSwiaWF0IjoxNjE2NTAxNjE2fQ.Y0Kuf42SoH8n-8PAtkJ2sjAavFPruxUW5ObYKMcC8AA'
-INTEGRATIONS_API_URL='http://24ba2f0e7b24.ngrok.io'
+INTEGRATION_JWT_TOKEN='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJwcm9qZWN0X2lkIjozMzMsImFwaV9rZXlfaWQiOjQ4MjIsIm5hbWUiOiIiLCJkZXNjcmlwdGlvbiI6IiIsImljb24iOiIiLCJpbnRlZ3JhdGlvbl9uYW1lIjoiZ2l0bGFiIiwib3B0aW9ucyI6e30sImlhdCI6MTYyMTI0Mjg5Mn0.ZE9D7MxlCQV0LwpbJldKu7ZX_A7YFZzbdXQgD6v2e9A'
+INTEGRATIONS_API_URL='http://6a643aa025c5.ngrok.io'
  
 sudo apt-get update -y
 sudo apt-get install -y jq
  
 #Trigger test run
 TEST_RUN_ID="$( \
-  curl -X POST -G ${INTEGRATIONS_API_URL}/api/integrations/gitlab/${PROJECT_ID}/events \
+  curl -X POST -G ${INTEGRATIONS_API_URL}/integrations/bitrise/${PROJECT_ID}/events \
     -d 'token='$INTEGRATION_JWT_TOKEN''\
     -d 'triggerType=Deploy'\
     -d 'projectId='$PROJECT_ID''\
